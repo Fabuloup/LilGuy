@@ -9,13 +9,15 @@ namespace lilguy
 {
     public class Animation
     {
+        private bool _loop;
         private Stopwatch _stopwatch = new Stopwatch();
         private List<int> _keyframes = new List<int>();
 
-        public Animation(List<int> keyframes)
+        public Animation(List<int> keyframes, bool loop = false)
         {
             keyframes.Sort();
             _keyframes = keyframes;
+            _loop = loop;
         }
 
         public void Start()
@@ -38,12 +40,24 @@ namespace lilguy
             _stopwatch.Restart();
         }
 
+        public bool IsRunning()
+        {
+            return _stopwatch.IsRunning;
+        }
+
         public int GetKeyframe()
         {
-            int keyframe = _keyframes.Where(k => k < _stopwatch.ElapsedMilliseconds).Count();
+            int keyframe = _keyframes.Where(k => k <= _stopwatch.ElapsedMilliseconds).Count();
             if(keyframe == _keyframes.Count)
             {
-                _stopwatch.Restart();
+                if(_loop)
+                {
+                    _stopwatch.Restart();
+                }
+                else
+                {
+                    _stopwatch.Stop();
+                }
             }
             return keyframe;
         }

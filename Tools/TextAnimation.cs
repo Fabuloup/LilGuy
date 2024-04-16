@@ -11,7 +11,7 @@ namespace lilguy
     {
         private List<string> _keyframesValue = new List<string>();
 
-        public TextAnimation(Dictionary<int, string> keyframes) : base(keyframes.Select(kv => kv.Key).ToList())
+        public TextAnimation(Dictionary<int, string> keyframes, bool loop = false) : base(keyframes.Select(kv => kv.Key).ToList(), loop)
         {
             _keyframesValue = keyframes.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
         }
