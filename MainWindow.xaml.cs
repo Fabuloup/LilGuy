@@ -62,12 +62,13 @@ namespace lilguy
         private void UpdateLilGuy()
         {
             Random rand = new Random();
-            Animation lilguySnoresAnimation = new Animation(new List<int> {
-                0,      // Closed mouth
-                1400,    // Transition mouth
-                1500,    // Open mouth
-                2800,    // Transition mouth
-                3000    // Last Keyframe
+            TextAnimation lilguySnoresAnimation = new TextAnimation(new Dictionary<int, string>
+            {
+                { 0, "U.U"},
+                { 1400, "UoU"},
+                { 1500, "UOU"},
+                { 2800, "UoU"},
+                { 3000, "U.U"},
             });
             lilguySnoresAnimation.Start();
 
@@ -106,24 +107,7 @@ namespace lilguy
                     // Animate the lilguy snoring
                     Dispatcher.Invoke(() =>
                     {
-                        switch (lilguySnoresAnimation.GetKeyframe())
-                        {
-                            case 1:
-                                lilguyTextBox.Text = "U.U";
-                                break;
-                            case 2:
-                                lilguyTextBox.Text = "UoU";
-                                break;
-                            case 3:
-                                lilguyTextBox.Text = "UOU";
-                                break;
-                            case 4:
-                                lilguyTextBox.Text = "UoU";
-                                break;
-                            default:
-                                lilguyTextBox.Text = "U.U";
-                                break;
-                        }
+                        lilguyTextBox.Text = lilguySnoresAnimation.GetKeyframe();
                     });
 
                     // Wait for 50ms
