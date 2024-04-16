@@ -1,0 +1,31 @@
+﻿<Window x:Class="lilguy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lilguy"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        Topmost="True"
+        Title="Lil Guy" Height="50" Width="200">
+    <WindowChrome.WindowChrome>
+        <WindowChrome     
+            CaptionHeight="1"  
+            CornerRadius ="0"
+            ResizeBorderThickness="8"         
+            GlassFrameThickness="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Viewbox Stretch="Uniform">
+            <TextBlock Name="lilguyTextBox" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="U.U" VerticalAlignment="Center" FontFamily="Cascadia Code SemiBold">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="3" Color="White"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Viewbox>
+    </Grid>
+</Window>
