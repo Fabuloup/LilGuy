@@ -48,7 +48,15 @@ namespace lilguy
 
         private void MouseDownHandler(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            if(e.RightButton == MouseButtonState.Pressed)
+            {
+                this.Close();
+            }
+
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
 
         private void UpdateLilGuy()
@@ -82,6 +90,16 @@ namespace lilguy
 
                     // Pause for 15 minutes
                     Thread.Sleep(15 * 60 * 1000);
+                }
+                else if((now.Hour == 12 && now.Minute == 10))
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        lilguyTextBox.Text = heads[rand.Next(heads.Count)] + "  -- On mange ?";
+                    });
+
+                    // Pause for 50 minutes
+                    Thread.Sleep(50 * 60 * 1000);
                 }
                 else
                 {
