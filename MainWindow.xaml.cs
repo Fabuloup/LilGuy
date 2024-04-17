@@ -112,7 +112,7 @@ public partial class MainWindow : Window
         {
             // Check if it's time to display Pause message
             DateTime now = DateTime.Now;
-            if ((now.Hour == 10 && now.Minute == 30) || (now.Hour == 16 && now.Minute == 0))
+            if ((now.Hour == 10 && (now.Minute >= 30 && now.Minute < 45)) || (now.Hour == 16 && (now.Minute >= 0 && now.Minute < 15)))
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -123,7 +123,7 @@ public partial class MainWindow : Window
                 // Pause for 15 minutes
                 Thread.Sleep(15 * 60 * 1000);
             }
-            else if ((now.Hour == 12 && now.Minute == 10))
+            else if ((now.Hour == 12 && (now.Minute >= 10 && now.Minute <= 59)))
             {
                 Dispatcher.Invoke(() =>
                 {
