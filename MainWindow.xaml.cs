@@ -1,5 +1,5 @@
 ﻿using lilguy.Tools;
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -24,21 +24,10 @@ public partial class MainWindow : Window
     private bool running = true;
 
     // Lil Guy Variables
-    private List<string> heads = new List<string>
-        {
-            "^_^",
-            "^°^",
-            "^o^",
-            "°-°",
-            "+_+",
-            "O.O",
-            "◉‿◉",
-            "◉‿◉",
-            "◕‿‿◕",
-            "◕ヮ◕",
-            "≧︿≦"
-        };
+    private FaceGenerator faceGenerator = FaceGenerator.GetInstance();
+
     Random rand = new Random();
+
     TextAnimation lilguySnoresAnimation = new TextAnimation(new Dictionary<int, string>
             {
                 { 0, "U.U"},
@@ -47,6 +36,7 @@ public partial class MainWindow : Window
                 { 2800, "UoU"},
                 { 3000, "U.U"},
             }, loop: true);
+
     TextAnimation lilguyAngryAnimation = new TextAnimation(new Dictionary<int, string>
             {
                 { 0, "•`_´•"},
@@ -56,7 +46,9 @@ public partial class MainWindow : Window
                 { 2000, "•`_´•"},
                 { 2500, "•`_´•"},
             });
+
     private Humor humor = Humor.Sleep;
+
     private int anger = 0;
 
     public MainWindow()
@@ -104,7 +96,7 @@ public partial class MainWindow : Window
                 Dispatcher.Invoke(() =>
                 {
                     this.humor = Humor.Awake;
-                    lilguyTextBox.Text = heads[rand.Next(heads.Count)] + $"  -- {((rand.Next(0, 2) == 0) ? "Pause" : "c[_]")} ?";
+                    lilguyTextBox.Text = faceGenerator.GetFace() + $"  -- {((rand.Next(0, 2) == 0) ? "Pause" : "c[_]")} ?";
                 });
 
                 // Pause for 15 minutes
@@ -115,7 +107,7 @@ public partial class MainWindow : Window
                 Dispatcher.Invoke(() =>
                 {
                     this.humor = Humor.Awake;
-                    lilguyTextBox.Text = heads[rand.Next(heads.Count)] + "  -- On mange ?";
+                    lilguyTextBox.Text = faceGenerator.GetFace() + "  -- On mange ?";
                 });
 
                 // Pause for 50 minutes
