@@ -4,7 +4,7 @@
 
 A companion for your long work day.
 
-![](.\Images\lilguy.png)
+![](./Images/lilguy.png)
 
 ## How to use
 
