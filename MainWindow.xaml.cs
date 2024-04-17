@@ -47,6 +47,25 @@ public partial class MainWindow : Window
                 { 2500, "•`_´•"},
             });
 
+    TextAnimation lilguyFridayAnimation = new TextAnimation(new Dictionary<int, string>
+            {
+                { 0,    "ᕕ(⌐■_■)ᕗ   "},
+                { 1000, "  (ᕗ■_■)   "},
+                { 2000, "   ᕕ(⌐■_■)ᕗ"},
+                { 3000, "     (ᕗ■_■)"},
+                { 4000, "     \\(⌐■_■"}
+            });
+
+    TextAnimation lilguyGoAwayAnimation = new TextAnimation(new Dictionary<int, string>
+            {
+                { 0,    "ᕕ( ᐛ )ᕗ    "},
+                { 1000, "  (ᕗᐛ )    "},
+                { 2000, "   ᕕ( ᐛ )ᕗ "},
+                { 3000, "     (ᕗᐛ ) "},
+                { 4000, "     \\( ᐛ )"},
+                { 5000, "       \\( ᐛ"}
+            });
+
     private Humor humor = Humor.Sleep;
 
     private int anger = 0;
@@ -112,6 +131,31 @@ public partial class MainWindow : Window
 
                 // Pause for 50 minutes
                 Thread.Sleep(50 * 60 * 1000);
+            }
+            else if((now.Hour == 17 && now.Minute >= 50))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    if(now.DayOfWeek == DayOfWeek.Friday)
+                    {
+                        if (!lilguyFridayAnimation.IsRunning())
+                        {
+                            lilguyFridayAnimation.Start();
+                        }
+                        lilguyTextBox.Text = lilguyFridayAnimation.GetKeyframe();
+                    }
+                    else
+                    {
+                        if(!lilguyGoAwayAnimation.IsRunning())
+                        {
+                            lilguyGoAwayAnimation.Start();
+                        }
+                        lilguyTextBox.Text = lilguyGoAwayAnimation.GetKeyframe();
+                    }
+                });
+                
+                // Wait for 50ms
+                Thread.Sleep(50);
             }
             else
             {
