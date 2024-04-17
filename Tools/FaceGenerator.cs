@@ -19,6 +19,7 @@ public sealed class FaceGenerator
         "OO",
         "◉◉",
         "◕◕",
+        "UU",
         "≧≦"
     };
 
@@ -32,7 +33,8 @@ public sealed class FaceGenerator
         "‿",
         "‿‿",
         "ヮ",
-        "︿"
+        "︿",
+        "w"
     };
 
     private FaceGenerator() { }
