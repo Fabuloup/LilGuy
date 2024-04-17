@@ -53,21 +53,23 @@ public partial class MainWindow : Window
                 { 1000, "  (ᕗ■_■)   "},
                 { 2000, "   ᕕ(⌐■_■)ᕗ"},
                 { 3000, "     (ᕗ■_■)"},
-                { 4000, "     \\(⌐■_■"}
+                { 4000, "     \\(⌐■_■"},
+                { 5000, "     \\(⌐■_■"}
             });
 
     TextAnimation lilguyGoAwayAnimation = new TextAnimation(new Dictionary<int, string>
             {
-                { 0,    "ᕕ( ᐛ )ᕗ    "},
-                { 1000, "  (ᕗᐛ )    "},
-                { 2000, "   ᕕ( ᐛ )ᕗ "},
-                { 3000, "     (ᕗᐛ ) "},
-                { 4000, "     \\( ᐛ )"},
-                { 5000, "       \\( ᐛ"}
+                { 0,    "ᕕ( ᐛ )ᕗ      "},
+                { 1000, "  (ᕗᐛ )      "},
+                { 2000, "   ᕕ( ᐛ )ᕗ   "},
+                { 3000, "     (ᕗᐛ )   "},
+                { 5000, "      ᕕ( ᐛ )ᕗ"},
+                { 6000, "Ciao -- \\( ᐛ )"},
+                { 7000, "  Ciao -- \\( ᐛ"}
             });
 
     private Humor humor = Humor.Sleep;
-
+    private bool isEndOfDay = false;
     private int anger = 0;
 
     public MainWindow()
@@ -136,21 +138,35 @@ public partial class MainWindow : Window
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if(now.DayOfWeek == DayOfWeek.Friday)
+                    // Start animation
+                    if(!isEndOfDay)
                     {
-                        if (!lilguyFridayAnimation.IsRunning())
+                        isEndOfDay = true;
+                        if (now.DayOfWeek == DayOfWeek.Friday)
                         {
                             lilguyFridayAnimation.Start();
                         }
-                        lilguyTextBox.Text = lilguyFridayAnimation.GetKeyframe();
-                    }
-                    else
-                    {
-                        if(!lilguyGoAwayAnimation.IsRunning())
+                        else
                         {
                             lilguyGoAwayAnimation.Start();
                         }
+                    }
+                    // Display animation
+                    if(now.DayOfWeek == DayOfWeek.Friday)
+                    {
+                        lilguyTextBox.Text = lilguyFridayAnimation.GetKeyframe();
+                        if(!lilguyFridayAnimation.IsRunning())
+                        {
+                            Close();
+                        }
+                    }
+                    else
+                    {
                         lilguyTextBox.Text = lilguyGoAwayAnimation.GetKeyframe();
+                        if (!lilguyGoAwayAnimation.IsRunning())
+                        {
+                            Close();
+                        }
                     }
                 });
                 
