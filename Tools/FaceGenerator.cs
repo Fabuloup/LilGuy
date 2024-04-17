@@ -52,7 +52,7 @@ public sealed class FaceGenerator
 
     public string GetFace()
     {
-        bool sameEye = rand.NextSingle() <= 0.8;
+        bool sameEye = rand.NextSingle() <= 0.9;
         int firstEyeIndex = rand.Next(eyes.Count);
         int secondEyeIndex = firstEyeIndex;
         if(!sameEye)
