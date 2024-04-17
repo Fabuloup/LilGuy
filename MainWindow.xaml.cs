@@ -103,7 +103,7 @@ public partial class MainWindow : Window
     {
         if (e.RightButton == MouseButtonState.Pressed)
         {
-            this.Close();
+            App.Current.Shutdown();
         }
 
         if (e.LeftButton == MouseButtonState.Pressed)
