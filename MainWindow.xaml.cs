@@ -9,9 +9,11 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Microsoft.Extensions.Configuration;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Drawing.Color;
 using Point = System.Windows.Point;
+using System.IO;
 
 namespace lilguy;
 /// <summary>
@@ -20,6 +22,7 @@ namespace lilguy;
 public partial class MainWindow : Window
 {
     // Application Variables
+    private IConfiguration config;
     private Thread updateThread;
     private bool running = true;
 
@@ -63,18 +66,31 @@ public partial class MainWindow : Window
                 { 1000, "  (ᕗᐛ )      "},
                 { 2000, "   ᕕ( ᐛ )ᕗ   "},
                 { 3000, "     (ᕗᐛ )   "},
-                { 5000, "      ᕕ( ᐛ )ᕗ"},
-                { 6000, "Ciao -- \\( ᐛ )"},
-                { 7000, "  Ciao -- \\( ᐛ"}
+                { 4000, "      ᕕ( ᐛ )ᕗ"},
+                { 5000, "Ciao -- \\( ᐛ )"},
+                { 6000, "  Ciao -- \\( ᐛ"}
             });
 
     private Humor humor = Humor.Sleep;
     private bool isEndOfDay = false;
     private int anger = 0;
 
+    private List<Time> breaksTime = new List<Time>();
+    private List<Time> mealsTime = new List<Time>();
+    private Time shutdownTime = new Time();
+
     public MainWindow()
     {
         InitializeComponent();
+
+        var builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+        config = builder.Build();
+
+        LoadConfiguration();
+
         this.Topmost = true;
 
         this.MouseDown += MouseDownHandler;
@@ -104,37 +120,98 @@ public partial class MainWindow : Window
         this.DragMove();
     }
 
+    private void LoadConfiguration()
+    {
+        if (config["shutdownTime"] == null)
+        {
+            shutdownTime = new Time(17, 52);
+        }
+        else
+        {
+            shutdownTime = new Time(config["shutdownTime"]);
+        }
+
+        if (config["breaksTime"] == null)
+        {
+            breaksTime.Add(new Time(10, 30));
+            breaksTime.Add(new Time(16, 00));
+        }
+        else
+        {
+            List<string> times = config.GetSection("breaksTime").Get<List<string>>() ?? new List<string>();
+
+            foreach(string t in times)
+            {
+                breaksTime.Add(new Time(t));
+            }
+        }
+
+        if (config["mealsTime"] == null)
+        {
+            mealsTime.Add(new Time(12, 10));
+        }
+        else
+        {
+            List<string> times = config.GetSection("mealsTime").Get<List<string>>() ?? new List<string>();
+
+            foreach (string t in times)
+            {
+                mealsTime.Add(new Time(t));
+            }
+        }
+    }
+
     private void UpdateLilGuy()
     {
         lilguySnoresAnimation.Start();
+        DateTime realShutdownTime = shutdownTime.SetTime(DateTime.Now);
+
+        if(DateTime.Now > realShutdownTime)
+        {
+            realShutdownTime = realShutdownTime.AddDays(1);
+        }
 
         while (running)
         {
-            // Check if it's time to display Pause message
             DateTime now = DateTime.Now;
-            if ((now.Hour == 10 && (now.Minute >= 30 && now.Minute < 45)) || (now.Hour == 16 && (now.Minute >= 0 && now.Minute < 15)))
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    this.humor = Humor.Awake;
-                    lilguyTextBox.Text = faceGenerator.GetFace() + $"  -- {((rand.Next(0, 2) == 0) ? "Pause" : "c[_]")} ?";
-                });
 
-                // Pause for 15 minutes
-                Thread.Sleep(15 * 60 * 1000);
-            }
-            else if ((now.Hour == 12 && (now.Minute >= 10 && now.Minute <= 59)))
+            // Check if it's time to display Pause message
+            foreach(Time t in breaksTime)
             {
-                Dispatcher.Invoke(() =>
+                DateTime breakTimeStart = t.SetTime(now);
+                DateTime breakTimeEnd = breakTimeStart.AddMinutes(15);
+                if(now >= breakTimeStart && now <= breakTimeEnd)
                 {
-                    this.humor = Humor.Awake;
-                    lilguyTextBox.Text = faceGenerator.GetFace() + "  -- On mange ?";
-                });
+                    Dispatcher.Invoke(() =>
+                    {
+                        this.humor = Humor.Awake;
+                        lilguyTextBox.Text = faceGenerator.GetFace() + $"  -- {((rand.Next(0, 2) == 0) ? "Pause" : "c[_]")} ?";
+                    });
 
-                // Pause for 50 minutes
-                Thread.Sleep(50 * 60 * 1000);
+                    // Pause for 15 minutes
+                    Thread.Sleep(15 * 60 * 1000);
+                }
             }
-            else if((now.Hour == 17 && now.Minute >= 50))
+
+            // Check if it's time to display Meal message
+            foreach (Time t in mealsTime)
+            {
+                DateTime mealTimeStart = t.SetTime(now);
+                DateTime mealTimeEnd = mealTimeStart.AddMinutes(15);
+                if (now >= mealTimeStart && now <= mealTimeEnd)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        this.humor = Humor.Awake;
+                        lilguyTextBox.Text = faceGenerator.GetFace() + "  -- On mange ?";
+                    });
+
+                    // Pause for 15 minutes
+                    Thread.Sleep(15 * 60 * 1000);
+                }
+            }
+            
+            if(now >= realShutdownTime)
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -157,7 +234,7 @@ public partial class MainWindow : Window
                         lilguyTextBox.Text = lilguyFridayAnimation.GetKeyframe();
                         if(!lilguyFridayAnimation.IsRunning())
                         {
-                            Close();
+                            App.Current.Shutdown();
                         }
                     }
                     else
@@ -165,7 +242,7 @@ public partial class MainWindow : Window
                         lilguyTextBox.Text = lilguyGoAwayAnimation.GetKeyframe();
                         if (!lilguyGoAwayAnimation.IsRunning())
                         {
-                            Close();
+                            App.Current.Shutdown();
                         }
                     }
                 });
