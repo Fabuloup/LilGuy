@@ -11,9 +11,10 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Microsoft.Extensions.Configuration;
 using Brushes = System.Windows.Media.Brushes;
-using Color = System.Drawing.Color;
+using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using System.IO;
+using System.Windows.Media.Effects;
 
 namespace lilguy;
 /// <summary>
@@ -91,6 +92,10 @@ public partial class MainWindow : Window
         config = builder.Build();
 
         LoadConfiguration();
+
+        // Set colors
+        this.lilguyTextBox.Foreground = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString(config["color"] ?? "#000"));
+        (this.lilguyTextBox.Effect as DropShadowEffect)!.Color = (Color)System.Windows.Media.ColorConverter.ConvertFromString(config["halo"] ?? "#fff");
 
         // Register events
         this.Topmost = true;

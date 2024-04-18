@@ -16,7 +16,7 @@ You can adjust when Lil Guy ask for a break, a meal or when he is leaving using 
 
 Hour format is `HH:mm`.
 
-`breaksTime` and `mealsTime` are array but `shutdownTime` is a single value.
+`breaksTime` and `mealsTime` are array but `shutdownTime`, `runOnStartup`, `color` and `halo` are single values.
 
 Example :
 ```json
@@ -29,6 +29,8 @@ Example :
     "12:10"
   ],
   "shutdownTime": "17:50",
-  "runOnStartup": false
+  "runOnStartup": false,
+  "color": "#000",
+  "halo": "#fff"
 }
 ```
