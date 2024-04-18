@@ -135,9 +135,9 @@ public partial class MainWindow : Window
                 lilguyAngryAnimation.Restart();
                 humor = Humor.Angry;
             }
-        }
 
-        this.DragMove();
+            this.DragMove();
+        }
     }
 
     private void LoadConfiguration()
