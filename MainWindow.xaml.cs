@@ -83,6 +83,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
+        // Read Configuration
         var builder = new ConfigurationBuilder();
         builder.SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -91,10 +92,24 @@ public partial class MainWindow : Window
 
         LoadConfiguration();
 
+        // Register events
         this.Topmost = true;
 
         this.MouseDown += MouseDownHandler;
 
+        // Manage run on startup
+        bool isRunOnStartupEnabled = config.GetValue<bool>("runOnStartup");
+
+        if (isRunOnStartupEnabled && !RunOnStartup.Startup.IsInStartup())
+        {
+            RunOnStartup.Startup.RunOnStartup();
+        }
+        else if(!isRunOnStartupEnabled && RunOnStartup.Startup.IsInStartup())
+        {
+            RunOnStartup.Startup.RemoveFromStartup();
+        }
+
+        // Start the update thread
         updateThread = new Thread(new ThreadStart(UpdateLilGuy));
         updateThread.Start();
     }
