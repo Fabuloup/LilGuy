@@ -200,7 +200,7 @@ public partial class MainWindow : Window
             {
                 DateTime breakTimeStart = t.SetTime(now);
                 DateTime breakTimeEnd = breakTimeStart.AddMinutes(15);
-                if(now >= breakTimeStart && now <= breakTimeEnd)
+                if((now >= breakTimeStart && now <= breakTimeEnd) || (now >= breakTimeStart.AddDays(-1) && now <= breakTimeEnd.AddDays(-1)))
                 {
                     Dispatcher.Invoke(() =>
                     {
@@ -218,7 +218,7 @@ public partial class MainWindow : Window
             {
                 DateTime mealTimeStart = t.SetTime(now);
                 DateTime mealTimeEnd = mealTimeStart.AddMinutes(15);
-                if (now >= mealTimeStart && now <= mealTimeEnd)
+                if ((now >= mealTimeStart && now <= mealTimeEnd) || (now >= mealTimeStart.AddDays(-1) && now <= mealTimeEnd.AddDays(-1)))
                 {
                     Dispatcher.Invoke(() =>
                     {
