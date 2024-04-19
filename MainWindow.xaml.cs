@@ -15,6 +15,8 @@ using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using System.IO;
 using System.Windows.Media.Effects;
+using System.Configuration;
+using Microsoft.Extensions.Primitives;
 
 namespace lilguy;
 /// <summary>
@@ -23,6 +25,7 @@ namespace lilguy;
 public partial class MainWindow : Window
 {
     // Application Variables
+    private IChangeToken configChangeToken;
     private IConfiguration config;
     private Thread updateThread;
     private bool running = true;
@@ -90,29 +93,14 @@ public partial class MainWindow : Window
                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
         config = builder.Build();
+        configChangeToken = config.GetReloadToken();
 
         LoadConfiguration();
-
-        // Set colors
-        this.lilguyTextBox.Foreground = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString(config["color"] ?? "#000"));
-        (this.lilguyTextBox.Effect as DropShadowEffect)!.Color = (Color)System.Windows.Media.ColorConverter.ConvertFromString(config["halo"] ?? "#fff");
 
         // Register events
         this.Topmost = true;
 
         this.MouseDown += MouseDownHandler;
-
-        // Manage run on startup
-        bool isRunOnStartupEnabled = config.GetValue<bool>("runOnStartup");
-
-        if (isRunOnStartupEnabled && !RunOnStartup.Startup.IsInStartup())
-        {
-            RunOnStartup.Startup.RunOnStartup();
-        }
-        else if(!isRunOnStartupEnabled && RunOnStartup.Startup.IsInStartup())
-        {
-            RunOnStartup.Startup.RemoveFromStartup();
-        }
 
         // Start the update thread
         updateThread = new Thread(new ThreadStart(UpdateLilGuy));
@@ -179,6 +167,25 @@ public partial class MainWindow : Window
                 mealsTime.Add(new Time(t));
             }
         }
+
+        // Set colors
+        Dispatcher.Invoke(() =>
+        {
+            this.lilguyTextBox.Foreground = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString(config["color"] ?? "#000"));
+            (this.lilguyTextBox.Effect as DropShadowEffect)!.Color = (Color)System.Windows.Media.ColorConverter.ConvertFromString(config["halo"] ?? "#fff");
+        });
+
+        // Manage run on startup
+        bool isRunOnStartupEnabled = config.GetValue<bool>("runOnStartup");
+
+        if (isRunOnStartupEnabled && !RunOnStartup.Startup.IsInStartup())
+        {
+            RunOnStartup.Startup.RunOnStartup();
+        }
+        else if (!isRunOnStartupEnabled && RunOnStartup.Startup.IsInStartup())
+        {
+            RunOnStartup.Startup.RemoveFromStartup();
+        }
     }
 
     private void UpdateLilGuy()
@@ -194,6 +201,13 @@ public partial class MainWindow : Window
         while (running)
         {
             DateTime now = DateTime.Now;
+
+            // Check if configuration has changed
+            if(configChangeToken != config.GetReloadToken())
+            {
+                configChangeToken = config.GetReloadToken();
+                LoadConfiguration();
+            }
 
             // Check if it's time to display Pause message
             foreach(Time t in breaksTime)
