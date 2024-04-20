@@ -61,5 +61,27 @@ namespace lilguy.Tools
             }
             return keyframe;
         }
+
+        public double GetPreciseKeyframe()
+        {
+            double keyframe = _keyframes.Where(k => k <= _stopwatch.ElapsedMilliseconds).Count();
+            if (keyframe == _keyframes.Count)
+            {
+                if (_loop)
+                {
+                    _stopwatch.Restart();
+                }
+                else
+                {
+                    _stopwatch.Stop();
+                }
+            }
+            else
+            {
+                double interval = _keyframes[(int)keyframe] - _keyframes[(int)keyframe - 1];
+                keyframe += Double.Clamp(((double)(_stopwatch.ElapsedMilliseconds - _keyframes[(int)keyframe - 1]) / interval), 0.0, 0.999999999999);
+            }
+            return keyframe;
+        }
     }
 }

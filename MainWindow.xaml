@@ -21,9 +21,9 @@
     </WindowChrome.WindowChrome>
     <Grid>
         <Viewbox Stretch="Uniform">
-            <TextBlock Name="lilguyTextBox" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="U.U" VerticalAlignment="Center" FontFamily="Cascadia Code SemiBold">
+            <TextBlock Name="lilguyTextBox" FontSize="1000" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="U.U" VerticalAlignment="Center" FontFamily="Cascadia Code SemiBold">
                 <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="3" Color="White"/>
+                    <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="250" Color="White"/>
                 </TextBlock.Effect>
             </TextBlock>
         </Viewbox>

@@ -35,53 +35,53 @@ public partial class MainWindow : Window
 
     Random rand = new Random();
 
-    TextAnimation lilguySnoresAnimation = new TextAnimation(new Dictionary<int, string>
+    LilGuyAnimation lilguySnoresAnimation = new LilGuyAnimation(new Dictionary<int, LilGuyKeyFrame>
             {
-                { 0, "U.U"},
-                { 1400, "UoU"},
-                { 1500, "UOU"},
-                { 2800, "UoU"},
-                { 3000, "U.U"},
+                { 0,    new LilGuyKeyFrame{text = "U.U", blurRadius = 0} },
+                { 1400, new LilGuyKeyFrame{text = "UoU", blurRadius = 50} },
+                { 1500, new LilGuyKeyFrame{text = "UOU", blurRadius = 100} },
+                { 2800, new LilGuyKeyFrame{text = "UoU", blurRadius = 50} },
+                { 3000, new LilGuyKeyFrame{text = "U.U", blurRadius = 50} },
             }, loop: true);
 
-    TextAnimation lilguyAngryAnimation = new TextAnimation(new Dictionary<int, string>
+    LilGuyAnimation lilguyAngryAnimation = new LilGuyAnimation(new Dictionary<int, LilGuyKeyFrame>
             {
-                { 0, "•`_´•"},
-                { 500, "•`_´•#"},
-                { 1000, "•`_´•"},
-                { 1500, "•`_´•#"},
-                { 2000, "•`_´•"},
-                { 2500, "•`_´•"},
+                { 0,    new LilGuyKeyFrame{text = "•`_´•", blurRadius = 0 }},
+                { 500,  new LilGuyKeyFrame{text = "•`_´•#", blurRadius = 300 }},
+                { 1000, new LilGuyKeyFrame{text = "•`_´•", blurRadius = 0 }},
+                { 1500, new LilGuyKeyFrame{text = "•`_´•#", blurRadius = 300 }},
+                { 2000, new LilGuyKeyFrame{text = "•`_´•", blurRadius = 0 }},
+                { 2500, new LilGuyKeyFrame{text = "•`_´•", blurRadius = 0 }},
             });
 
-    TextAnimation lilguyFridayAnimation = new TextAnimation(new Dictionary<int, string>
+    LilGuyAnimation lilguyFridayAnimation = new LilGuyAnimation(new Dictionary<int, LilGuyKeyFrame>
             {
-                { 0,    "ᕕ(⌐■_■)ᕗ         "},
-                { 1000, "  (ᕗ■_■)         "},
-                { 2000, "   ᕕ(⌐■_■)ᕗ      "},
-                { 3000, "     (ᕗ■_■)      "},
-                { 4000, "      ᕕ(⌐■_■)ᕗ   "},
-                { 5000, "        (ᕗ■_■)   "},
-                { 6000, "         ᕕ(⌐■_■)ᕗ"},
-                { 7000, "           \\(⌐■_■"},
-                { 8000, "             \\(⌐■"},
-                { 9000, "             \\(⌐■"}
+                { 0,    new LilGuyKeyFrame{text = "ᕕ(⌐■_■)ᕗ         ", blurRadius = 400 }},
+                { 1000, new LilGuyKeyFrame{text = "  (ᕗ■_■)         ", blurRadius = 360 }},
+                { 2000, new LilGuyKeyFrame{text = "   ᕕ(⌐■_■)ᕗ      ", blurRadius = 320 }},
+                { 3000, new LilGuyKeyFrame{text = "     (ᕗ■_■)      ", blurRadius = 280 }},
+                { 4000, new LilGuyKeyFrame{text = "      ᕕ(⌐■_■)ᕗ   ", blurRadius = 240 }},
+                { 5000, new LilGuyKeyFrame{text = "        (ᕗ■_■)   ", blurRadius = 200 }},
+                { 6000, new LilGuyKeyFrame{text = "         ᕕ(⌐■_■)ᕗ", blurRadius = 160 }},
+                { 7000, new LilGuyKeyFrame{text = "           \\(⌐■_■", blurRadius = 120 }},
+                { 8000, new LilGuyKeyFrame{text = "             \\(⌐■", blurRadius = 80 }},
+                { 9000, new LilGuyKeyFrame{text = "             \\(⌐■", blurRadius = 0 }}
             });
 
-    TextAnimation lilguyGoAwayAnimation = new TextAnimation(new Dictionary<int, string>
+    LilGuyAnimation lilguyGoAwayAnimation = new LilGuyAnimation(new Dictionary<int, LilGuyKeyFrame>
             {
-                { 0,    "ᕕ( ᐛ )ᕗ          "},
-                { 1000, "  (ᕗᐛ )          "},
-                { 2000, "   ᕕ( ᐛ )ᕗ       "},
-                { 3000, "     (ᕗᐛ )       "},
-                { 4000, "      ᕕ( ᐛ )ᕗ    "},
-                { 5000, "        (ᕗᐛ )    "},
-                { 7000, "         ᕕ( ᐛ )ᕗ "},
-                { 8000, "           (ᕗᐛ ) "},
-                { 9000, "   Ciao -- \\( ᐛ )"},
-                { 10000, "     Ciao -- \\( ᐛ"},
-                { 11000, "       Ciao -- \\("},
-                { 12000, "       Ciao -- \\("}
+                { 0,        new LilGuyKeyFrame { text = "ᕕ( ᐛ )ᕗ          ", blurRadius = 400 }},
+                { 1000,     new LilGuyKeyFrame { text = "  (ᕗᐛ )          ", blurRadius = 360 }},
+                { 2000,     new LilGuyKeyFrame { text = "   ᕕ( ᐛ )ᕗ       ", blurRadius = 320 }},
+                { 3000,     new LilGuyKeyFrame { text = "     (ᕗᐛ )       ", blurRadius = 280 }},
+                { 4000,     new LilGuyKeyFrame { text = "      ᕕ( ᐛ )ᕗ    ", blurRadius = 240 }},
+                { 5000,     new LilGuyKeyFrame { text = "        (ᕗᐛ )    ", blurRadius = 200 }},
+                { 6000,     new LilGuyKeyFrame { text = "         ᕕ( ᐛ )ᕗ ", blurRadius = 160 }},
+                { 7000,     new LilGuyKeyFrame { text = "           (ᕗᐛ ) ", blurRadius = 120 }},
+                { 8000,     new LilGuyKeyFrame { text = "   Ciao -- \\( ᐛ )", blurRadius = 80 }},
+                { 9000,     new LilGuyKeyFrame { text = "     Ciao -- \\( ᐛ", blurRadius = 40 }},
+                { 10000,    new LilGuyKeyFrame { text = "       Ciao -- \\(", blurRadius = 0 }},
+                { 11000,    new LilGuyKeyFrame { text = "       Ciao -- \\(", blurRadius = 0 }}
             });
 
     private Humor humor = Humor.Sleep;
@@ -91,6 +91,8 @@ public partial class MainWindow : Window
     private List<Time> breaksTime = new List<Time>();
     private List<Time> mealsTime = new List<Time>();
     private Time shutdownTime = new Time();
+
+    private double defaultBlurRadius;
 
     public MainWindow()
     {
@@ -111,6 +113,9 @@ public partial class MainWindow : Window
 
         this.MouseDown += MouseDownHandler;
 
+        // Get default values
+        defaultBlurRadius = (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius;
+
         // Start the update thread
         updateThread = new Thread(new ThreadStart(UpdateLilGuy));
         updateThread.Start();
@@ -126,7 +131,7 @@ public partial class MainWindow : Window
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             anger += 1;
-            if(rand.Next(20) <= anger)
+            if (rand.Next(20) <= anger)
             {
                 anger = 0;
                 lilguyAngryAnimation.Restart();
@@ -145,7 +150,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            shutdownTime = new Time(config["shutdownTime"]);
+            shutdownTime = new Time(config["shutdownTime"]!);
         }
 
         if (config["breaksTime"] == null)
@@ -157,7 +162,7 @@ public partial class MainWindow : Window
         {
             List<string> times = config.GetSection("breaksTime").Get<List<string>>() ?? new List<string>();
 
-            foreach(string t in times)
+            foreach (string t in times)
             {
                 breaksTime.Add(new Time(t));
             }
@@ -202,7 +207,7 @@ public partial class MainWindow : Window
         lilguySnoresAnimation.Start();
         DateTime realShutdownTime = shutdownTime.SetTime(DateTime.Now);
 
-        if(DateTime.Now > realShutdownTime)
+        if (DateTime.Now > realShutdownTime)
         {
             realShutdownTime = realShutdownTime.AddDays(1);
         }
@@ -212,23 +217,24 @@ public partial class MainWindow : Window
             DateTime now = DateTime.Now;
 
             // Check if configuration has changed
-            if(configChangeToken != config.GetReloadToken())
+            if (configChangeToken != config.GetReloadToken())
             {
                 configChangeToken = config.GetReloadToken();
                 LoadConfiguration();
             }
 
             // Check if it's time to display Pause message
-            foreach(Time t in breaksTime)
+            foreach (Time t in breaksTime)
             {
                 DateTime breakTimeStart = t.SetTime(now);
                 DateTime breakTimeEnd = breakTimeStart.AddMinutes(15);
-                if((now >= breakTimeStart && now <= breakTimeEnd) || (now >= breakTimeStart.AddDays(-1) && now <= breakTimeEnd.AddDays(-1)))
+                if ((now >= breakTimeStart && now <= breakTimeEnd) || (now >= breakTimeStart.AddDays(-1) && now <= breakTimeEnd.AddDays(-1)))
                 {
                     Dispatcher.Invoke(() =>
                     {
                         this.humor = Humor.Awake;
                         lilguyTextBox.Text = faceGenerator.GetFace() + $"  -- {((rand.Next(0, 2) == 0) ? "Pause" : "c[_]")} ?";
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius;
                     });
 
                     // Pause for 15 minutes
@@ -247,19 +253,20 @@ public partial class MainWindow : Window
                     {
                         this.humor = Humor.Awake;
                         lilguyTextBox.Text = faceGenerator.GetFace() + "  -- On mange ?";
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius;
                     });
 
                     // Pause for 15 minutes
                     Thread.Sleep(15 * 60 * 1000);
                 }
             }
-            
-            if(now >= realShutdownTime)
+
+            if (now >= realShutdownTime)
             {
                 Dispatcher.Invoke(() =>
                 {
                     // Start animation
-                    if(!isEndOfDay)
+                    if (!isEndOfDay)
                     {
                         isEndOfDay = true;
                         if (now.DayOfWeek == DayOfWeek.Friday)
@@ -272,24 +279,28 @@ public partial class MainWindow : Window
                         }
                     }
                     // Display animation
-                    if(now.DayOfWeek == DayOfWeek.Friday)
+                    if (now.DayOfWeek == DayOfWeek.Friday)
                     {
-                        lilguyTextBox.Text = lilguyFridayAnimation.GetKeyframe();
-                        if(!lilguyFridayAnimation.IsRunning())
+                        LilGuyKeyFrame keyframe = lilguyFridayAnimation.GetKeyframe();
+                        lilguyTextBox.Text = keyframe.text;
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
+                        if (!lilguyFridayAnimation.IsRunning())
                         {
                             App.Current.Shutdown();
                         }
                     }
                     else
                     {
-                        lilguyTextBox.Text = lilguyGoAwayAnimation.GetKeyframe();
+                        LilGuyKeyFrame keyframe = lilguyGoAwayAnimation.GetKeyframe();
+                        lilguyTextBox.Text = keyframe.text;
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
                         if (!lilguyGoAwayAnimation.IsRunning())
                         {
                             App.Current.Shutdown();
                         }
                     }
                 });
-                
+
                 // Wait for 50ms
                 Thread.Sleep(50);
             }
@@ -298,15 +309,19 @@ public partial class MainWindow : Window
                 // Animate the lilguy snoring
                 Dispatcher.Invoke(() =>
                 {
-                    if(humor != Humor.Angry)
+                    if (humor != Humor.Angry)
                     {
                         humor = Humor.Sleep;
-                        lilguyTextBox.Text = lilguySnoresAnimation.GetKeyframe();
+                        LilGuyKeyFrame keyframe = lilguySnoresAnimation.GetKeyframe();
+                        lilguyTextBox.Text = keyframe.text;
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
                     }
                     else
                     {
-                        lilguyTextBox.Text = lilguyAngryAnimation.GetKeyframe();
-                        if(!lilguyAngryAnimation.IsRunning())
+                        LilGuyKeyFrame keyframe = lilguyAngryAnimation.GetKeyframe();
+                        lilguyTextBox.Text = keyframe.text;
+                        (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
+                        if (!lilguyAngryAnimation.IsRunning())
                         {
                             humor = Humor.Sleep;
                         }
