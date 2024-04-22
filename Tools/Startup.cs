@@ -20,7 +20,7 @@ namespace RunOnStartup
         /// </summary>
         public static bool RunOnStartup()
         {
-            return RunOnStartup(Application.ResourceAssembly.GetName().Name!, Application.ResourceAssembly.Location);
+            return RunOnStartup(Application.ResourceAssembly.GetName().Name!, Environment.ProcessPath!);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace RunOnStartup
             RegistryKey rk;
             try
             {
-                rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+                rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)!;
                 rk.SetValue(AppTitle, AppPath);
                 return true;
             }

@@ -285,7 +285,8 @@ public partial class MainWindow : Window
                         (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
                         if (!lilguyFridayAnimation.IsRunning())
                         {
-                            App.Current.Shutdown();
+                            this.Close();
+                            //App.Current.Shutdown();
                         }
                     }
                     else
@@ -295,7 +296,8 @@ public partial class MainWindow : Window
                         (lilguyTextBox.Effect as DropShadowEffect)!.BlurRadius = defaultBlurRadius + keyframe.blurRadius;
                         if (!lilguyGoAwayAnimation.IsRunning())
                         {
-                            App.Current.Shutdown();
+                            this.Close();
+                            //App.Current.Shutdown();
                         }
                     }
                 });
@@ -338,6 +340,7 @@ public partial class MainWindow : Window
         running = false;
         updateThread.Join();
         base.OnClosed(e);
+        App.Current.Shutdown();
     }
 }
 
