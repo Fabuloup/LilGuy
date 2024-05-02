@@ -153,6 +153,7 @@ public partial class MainWindow : Window
             shutdownTime = new Time(config["shutdownTime"]!);
         }
 
+        breaksTime.Clear();
         if (!config.GetSection("breaksTime").Exists())
         {
             breaksTime.Add(new Time(10, 30));
@@ -167,7 +168,7 @@ public partial class MainWindow : Window
             }
         }
 
-        List<string>? mealsTimes = config.GetSection("mealsTime").Get<List<string>>();
+        mealsTime.Clear();
         if (!config.GetSection("mealsTime").Exists())
         {
             mealsTime.Add(new Time(12, 10));
