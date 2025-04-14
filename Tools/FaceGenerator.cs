@@ -20,7 +20,9 @@ public sealed class FaceGenerator
         "◉◉",
         "◕◕",
         "UU",
-        "≧≦"
+        "≧≦",
+        "@@",
+        "XX"
     };
 
     private List<string> mouth = new List<string>
