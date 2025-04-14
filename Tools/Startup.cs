@@ -30,16 +30,18 @@ namespace RunOnStartup
         /// <param name="AppPath">Path of executable to run on startup.</param>
         public static bool RunOnStartup(string AppTitle, string AppPath)
         {
-            if(!IsElevated) return false;
             RegistryKey rk;
-            try
+            if (IsElevated)
             {
-                rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)!;
-                rk.SetValue(AppTitle, AppPath);
-                return true;
-            }
-            catch(Exception)
-            {
+                try
+                {
+                    rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)!;
+                    rk.SetValue(AppTitle, AppPath);
+                    return true;
+                }
+                catch(Exception)
+                {
+                }
             }
 
             try
@@ -59,7 +61,7 @@ namespace RunOnStartup
         /// </summary>
         public static bool RemoveFromStartup()
         {
-            return RemoveFromStartup(Application.ResourceAssembly.GetName().Name!, Application.ResourceAssembly.Location);
+            return RemoveFromStartup(Application.ResourceAssembly.GetName().Name!, Environment.ProcessPath!);
         }
 
         /// <summary>
@@ -78,42 +80,24 @@ namespace RunOnStartup
         /// <param name="AppPath">Path of executable in the registry that's being run on startup.</param>
         public static bool RemoveFromStartup(string AppTitle, string AppPath)
         {
-            if (!IsElevated) return false;
             RegistryKey rk;
-            try
+            if (IsElevated)
             {
-                rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                if(AppPath == null)
+                try
                 {
+                    rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
                     rk.DeleteValue(AppTitle);
+                    return true;
                 }
-                else
+                catch(Exception)
                 {
-                    if(rk.GetValue(AppTitle).ToString().ToLower() == AppPath.ToLower())
-                    {
-                        rk.DeleteValue(AppTitle);
-                    }
                 }
-                return true;
-            }
-            catch(Exception)
-            {
             }
 
             try
             {
                 rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                if(AppPath == null)
-                {
-                    rk.DeleteValue(AppTitle);
-                }
-                else
-                {
-                    if(rk.GetValue(AppTitle).ToString().ToLower() == AppPath.ToLower())
-                    {
-                        rk.DeleteValue(AppTitle);
-                    }
-                }
+                rk.DeleteValue(AppTitle);
             }
             catch(Exception)
             {
@@ -128,7 +112,7 @@ namespace RunOnStartup
         /// <returns></returns>
         public static bool IsInStartup()
         {
-            return IsInStartup(Application.ResourceAssembly.GetName().Name!, Application.ResourceAssembly.Location);
+            return IsInStartup(Application.ResourceAssembly.GetName().Name!, Environment.ProcessPath!);
         }
 
         /// <summary>
@@ -139,29 +123,27 @@ namespace RunOnStartup
         /// <returns></returns>
         public static bool IsInStartup(string AppTitle, string AppPath)
         {
-            if (!IsElevated) return false;
             RegistryKey rk;
             string value;
 
-            try
+            if (IsElevated)
             {
-                rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                value = rk.GetValue(AppTitle).ToString();
-                if(value == null)
+                try
                 {
-                    return false;
+                    rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+                    value = rk.GetValue(AppTitle).ToString();
+                    if(value == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
-                else if(!value.ToLower().Equals(AppPath.ToLower()))
+                catch(Exception)
                 {
-                    return false;
                 }
-                else
-                {
-                    return true;
-                }
-            }
-            catch(Exception)
-            {
             }
 
             try
@@ -169,10 +151,6 @@ namespace RunOnStartup
                 rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
                 value = rk.GetValue(AppTitle).ToString();
                 if(value == null)
-                {
-                    return false;
-                }
-                else if(!value.ToLower().Equals(AppPath.ToLower()))
                 {
                     return false;
                 }
